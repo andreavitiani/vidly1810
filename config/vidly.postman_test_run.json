@@ -1,0 +1,122 @@
+{
+	"id": "2d00963b-18f2-4ea3-9d72-266859d2f799",
+	"name": "vidly",
+	"allTests": [],
+	"timestamp": "2019-04-24T15:02:44.380Z",
+	"collection_id": "c808bd43-c658-43cd-8fc0-de9eedff7610",
+	"folder_id": 0,
+	"target_type": "collection",
+	"environment_id": "0",
+	"data": [],
+	"delay": 0,
+	"count": 1,
+	"collection": {
+		"id": "c808bd43-c658-43cd-8fc0-de9eedff7610",
+		"name": "vidly",
+		"description": "",
+		"auth": null,
+		"events": null,
+		"variables": [],
+		"order": [
+			"f4d23bbc-fc97-45a7-9132-a76b74df9d27",
+			"554aa226-68c6-487a-b955-440210a70604"
+		],
+		"folders_order": [],
+		"owner": "7329758",
+		"favorite": false,
+		"type": "collection",
+		"depth": 0
+	},
+	"folder": null,
+	"environment": null,
+	"globals": [],
+	"results": [
+		{
+			"name": "get rentals",
+			"id": "f4d23bbc-fc97-45a7-9132-a76b74df9d27",
+			"url": "127.0.0.1:3000/api/rentals",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				"13"
+			],
+			"allTests": [
+				{}
+			],
+			"time": "13",
+			"totalRequestTime": "13",
+			"iterationResults": {}
+		},
+		{
+			"name": "post rentals",
+			"id": "554aa226-68c6-487a-b955-440210a70604",
+			"url": "127.0.0.1:3000/api/rentals",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request",
+				"detail": {
+					"name": "Bad Request",
+					"detail": "The request cannot be fulfilled due to bad syntax."
+				}
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				"3"
+			],
+			"allTests": [
+				{}
+			],
+			"time": "3",
+			"totalRequestTime": "3",
+			"iterationResults": {}
+		}
+	],
+	"totalPass": 0,
+	"totalFail": 0,
+	"totalTime": 16,
+	"lifecycle": "done",
+	"requests": [
+		{
+			"name": "get rentals",
+			"id": "f4d23bbc-fc97-45a7-9132-a76b74df9d27",
+			"url": "127.0.0.1:3000/api/rentals",
+			"time": "2019-04-24T15:02:44.380Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {}
+		},
+		{
+			"name": "post rentals",
+			"id": "554aa226-68c6-487a-b955-440210a70604",
+			"url": "127.0.0.1:3000/api/rentals",
+			"time": "2019-04-24T15:02:44.380Z",
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request",
+				"detail": {
+					"name": "Bad Request",
+					"detail": "The request cannot be fulfilled due to bad syntax."
+				}
+			},
+			"testPassFailCounts": {}
+		}
+	],
+	"synced": false
+}
