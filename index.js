@@ -12,6 +12,16 @@ const users = require("./routes/users.js");
 const home = require("./routes/home.js");
 const express = require("express");
 const mongoose = require("mongoose");
+const auth = require("./routes/auth.js");
+const Joi = require("joi");
+Joi.objectId = require("joi-objectid")(Joi);
+
+const Fawn = require("fawn"); // FAWN ALLOWS TO SIMULATE TRANSACTION (FROM SQL) IN NODE.JS THAT DOESNT HAVE THIS CONSTRUCT. THIS USE "TWO PHASE COMMITS" OF NODE UNDER THE HOOD FAWN HAS AN MPATH DEPENDENCY THAT HAVE A VULNERABILITY AND MPATH SHOULD BE UPDATE FROM THE DEVS
+// //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+// //FAWN "TRANSACTION" SETUP
+
+Fawn.init(mongoose);
 
 // MONGOOSE MONGODB SETTING UP------------------------------------------------------------------------------------------------------------------------------------------------
 mongoose
@@ -49,6 +59,7 @@ app.use("/api/customers", customers);
 app.use("/api/movies", movies);
 app.use("/api/rentals", rentals);
 app.use("/api/users", users);
+app.use("/api/auth", auth);
 app.use("/", home);
 
 //CASINO NEL CONFIGURARE VARIABILI ENVIRONAMENTALI, DOVE SONO STOCCATE? IN QUALE FILE?******
@@ -60,3 +71,5 @@ app.use("/", home);
 
 // console.log(`Node environement is: ${process.env.NODE_ENV}`);
 console.log(`app is in: ${app.get("env")}`);
+
+//hello

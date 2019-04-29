@@ -1,9 +1,10 @@
-const { User, validation } = require("./../models/user.js");
+const { User } = require("./../models/user.js");
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
+const Joi = require("joi");
 
 // CREATE√------------------------------------------------------------------------------------------------------------------------------------------------
 router.post("/", async (req, res) => {
@@ -11,25 +12,12 @@ router.post("/", async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   let user = await User.findOne({ email: req.body.email });
-  if (user) return res.status(400).send("This email is already registered.");
-  // user = new User({
-  //   name: req.body.name,
-  //   email: req.body.email,
-  //   password: req.body.password
-  // });
+  if (!user) return res.status(400).send("Invalid email or password.");
 
-  user = new User(_.pick(req.body, ["name", "email", "password"]));
-  const salt = await bcrypt.genSalt(10);
-  user.password = await bcrypt.hash(user.password, salt);
+  const validPassword = await bcrypt.compare(req.body.password, user.password);
+  if (!validPassword) return res.status(400).send("Invalid email or password.");
 
-  try {
-    await user.save();
-    // res.send(user); //this is wrong because it returns the password to the client
-    // res.send({ name: user.name, email: user.email }); // this is correct because it returns no password to the client but there is the npm pkg Lodash that is better
-    res.send(_.pick(user, ["_id", "name", "email"])); // lodash sintax
-  } catch (error) {
-    return res.status(400).send("This email is alredy registered...");
-  }
+  res.send(true);
 });
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -39,5 +27,20 @@ router.get("/", async (req, res) => {
   res.send(user);
 });
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+function validation(req) {
+  const schema = Joi.object().keys({
+    email: Joi.string()
+      .required()
+      .min(6)
+      .max(255)
+      .email(),
+    password: Joi.string()
+      .required()
+      .min(5)
+      .max(255)
+  });
+  return Joi.validate(req, schema);
+}
 
 module.exports = router;
