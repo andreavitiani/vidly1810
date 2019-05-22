@@ -1,0 +1,13 @@
+extends layout
+
+block content 
+    
+    .container
+        form(action="/api/genres/deletebyname", method="post")
+            h1.text-center #{title}
+            h2= title
+            p Check the genres list page for the exact name
+            label(for="name") NAME:__
+            input#exampleInput(type="text", name="name", placeholder="genre to delete")
+            br
+            button.btn.btn-primary(type="submit") SUBMIT

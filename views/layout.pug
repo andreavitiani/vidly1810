@@ -1,0 +1,71 @@
+doctype html
+html
+    head
+        title VIDLY VIDEO APP
+        script(src="https://code.jquery.com/jquery-3.3.1.slim.min.js")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js")
+        link(rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css")
+        link(rel="stylesheet" href="public/assets/css/Footer-white.css")
+        link(href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", rel="stylesheet")
+        script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js")
+        script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js")
+        style(type="text/css").
+            .spacer {
+                height: 50px
+            }
+    body
+        nav.navbar.navbar-expand-lg.navbar-light.bg-light
+            a.navbar-brand(href='/')
+                img.d-inline-block.align-top(src="public/assets/images/logo-vidly.png", width='30', height='30', alt='')
+                |Vidly
+            button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+                span.navbar-toggler-icon
+            #navbarSupportedContent.collapse.navbar-collapse
+                ul.navbar-nav.mr-auto
+                    li.nav-item.active
+                        a.nav-link(href='/')
+                            | Home 
+                        span.sr-only (current)
+                    li.nav-item
+                        a.nav-link(href='/login') Login
+                    li.nav-item.dropdown
+                        a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                            | Genres
+                        .dropdown-menu(aria-labelledby='navbarDropdown')
+                            a.dropdown-item(href='/add-new-genre') Add new
+                            a.dropdown-item(href='/delete-genre') Delete
+                            a.dropdown-item(href='/list-genres') List all
+                            .dropdown-divider
+                            a.dropdown-item(href='#') Something else here
+                    li.nav-item
+                        a.nav-link.disabled(href='#', tabindex='-1', aria-disabled='true') Disabled
+                a.my-2.my-lg-0.nav-link(href='/login') Login
+
+    
+    block content
+    br
+    hr
+
+    footer#myFooter.fixed-bottom
+        .container
+            ul
+                li
+                    a(href='#') Company Information
+                li
+                    a(href='#') Contact us
+                li
+                    a(href='#') Reviews
+                li
+                    a(href='#') Terms of service
+            p.footer-copyright © 2019 Andy Vitiani
+        .footer-social
+            a.social-icons(href='#')
+                i.fa.fa-facebook
+            a.social-icons(href='#')
+                i.fa.fa-google-plus
+            a.social-icons(href='#')
+                i.fa.fa-twitter
+
+
+    //- footer(class="page-footer font-small blue")
+    //-     p copyright &copy; Andrea 2019

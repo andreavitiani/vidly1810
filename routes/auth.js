@@ -1,3 +1,5 @@
+const config = require("config");
+const jwt = require("jsonwebtoken");
 const { User } = require("./../models/user.js");
 const express = require("express");
 const router = express.Router();
@@ -6,7 +8,9 @@ const _ = require("lodash");
 const bcrypt = require("bcrypt");
 const Joi = require("joi");
 
-// CREATE√------------------------------------------------------------------------------------------------------------------------------------------------
+//THIS IS A LOGIN MODULE
+
+// CREATE√ IN THIS CASE MEANS VALIDATE IF A USER EXIST AND CREDENTIAL ARE CORRECT AND GENERATE JWS------------------------------------------------------------------------------------------------------------------------------------------------
 router.post("/", async (req, res) => {
   const { error } = validation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -17,14 +21,11 @@ router.post("/", async (req, res) => {
   const validPassword = await bcrypt.compare(req.body.password, user.password);
   if (!validPassword) return res.status(400).send("Invalid email or password.");
 
-  res.send(true);
-});
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  const token = user.generateAuthToken();
 
-// READ√------------------------------------------------------------------------------------------------------------------------------------------------
-router.get("/", async (req, res) => {
-  const users = await Genre.find().sort("name");
-  res.send(user);
+  // const token = jwt.sign({ _id: user._id }, config.get("jwtPrivateKey"));
+
+  res.send(token);
 });
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

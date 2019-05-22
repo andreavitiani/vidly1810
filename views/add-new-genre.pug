@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    .container
+        form(action="/api/genres", method="post")
+            h1.text-center #{title}
+            //- .spacer
+            -const addAction = "ADD A GENRE"
+            h2= addAction
+            label(for="name") NAME:__
+            input#exampleInput(type="text", name="name", placeholder="genre to add", value=hi)
+            br
+            button.btn.btn-primary(type="submit") SUBMIT
