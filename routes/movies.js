@@ -1,3 +1,4 @@
+const admin = require("../middleware/admin.js");
 const auth = require("../middleware/auth.js");
 const { Movie, validation } = require("./../models/movie.js");
 const express = require("express");
@@ -30,7 +31,7 @@ router.get("/:id", async (req, res) => {
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 // ADD√------------------------------------------------------------------------------------------------------------------------------------------------
-router.post("/", async (req, res) => {
+router.post("/", [auth, admin], async (req, res) => {
   // , auth
   const { error } = validation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -53,7 +54,7 @@ router.post("/", async (req, res) => {
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 // MODIFY√------------------------------------------------------------------------------------------------------------------------------------------------
-router.put("/:id", async (req, res) => {
+router.put("/:id", [auth, admin], async (req, res) => {
   const { error } = validation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
   try {
@@ -71,7 +72,7 @@ router.put("/:id", async (req, res) => {
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 // DELETE√------------------------------------------------------------------------------------------------------------------------------------------------
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", [auth, admin], async (req, res) => {
   const movie = await Movie.findByIdAndRemove(req.params.id);
   if (!movie) return res.status(404).send("The requested movie does not exist");
   res.send("The movie is deleted");

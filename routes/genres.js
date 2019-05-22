@@ -34,8 +34,7 @@ router.get("/:id", async (req, res) => {
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 // ADD√------------------------------------------------------------------------------------------------------------------------------------------------
-router.post("/", async (req, res) => {
-  //manca "auth" middleware tolto perche non so interagire con headers e cookies da frontend
+router.post("/", [auth, admin], async (req, res) => {
   const { error } = validation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -54,7 +53,7 @@ router.post("/", async (req, res) => {
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 // MODIFY√------------------------------------------------------------------------------------------------------------------------------------------------
-router.put("/:id", async (req, res) => {
+router.put("/:id", [auth, admin], async (req, res) => {
   const { error } = validation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
   try {
@@ -69,13 +68,13 @@ router.put("/:id", async (req, res) => {
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 // DELETE√------------------------------------------------------------------------------------------------------------------------------------------------
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", [auth, admin], async (req, res) => {
   //aggiungi , [auth, admin] per verifica token
   try {
     const genre = await Genre.findByIdAndRemove(req.params.id);
     if (!genre)
       return res.status(404).send("The requested genre does not exist");
-    res.send("The genre is deleted");
+    res.redirect("/");
   } catch (error) {
     return res.status(404).send("The requested genre does not exist");
   }
@@ -83,7 +82,7 @@ router.delete("/:id", async (req, res) => {
 
 //DELETE BY NAME IN GUI
 
-router.post("/deletebyname", async (req, res) => {
+router.post("/deletebyname", [auth, admin], async (req, res) => {
   try {
     let genre = await Genre.findOne({ name: req.body.name });
     if (!genre)
@@ -94,21 +93,6 @@ router.post("/deletebyname", async (req, res) => {
     return res.status(404).send("The requested genre does not exist");
   }
 });
-
-// router.post("/deletebyname", async (req, res) => {
-
-//   Genre.findOneAndRemove({ name: req.body.name }).exec();
-//   res.send("The genre is deleted");
-//   // } catch (error) {
-//   //   return res
-//   //     .status(404)
-//   //     .send("CANNOT DELETE. The requested genre does not exist");
-//   // }
-//   // console.log("The genre is deleted");
-//   // }
-
-//   // deleteName(req.body.name);
-// });
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

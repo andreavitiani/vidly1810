@@ -1,3 +1,4 @@
+const admin = require("../middleware/admin.js");
 const auth = require("../middleware/auth.js");
 const { Customers, validation } = require("../models/customer.js"); // LEARN OBJECT DESTRUCTURING
 const express = require("express");
@@ -6,14 +7,14 @@ const mongoose = require("mongoose");
 
 //REST HANDLERS WITH CRUD------------------------------------------------------------------------------------------------------------------------------------------------
 // CHECK ALL√------------------------------------------------------------------------------------------------------------------------------------------------
-router.get("/", async (req, res) => {
+router.get("/", [auth, admin], async (req, res) => {
   const customers = await Customers.find().sort("name");
   res.send(customers);
 });
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 // CHECK BY ID------------------------------------------------------------------------------------------------------------------------------------------------
-router.get("/:id", async (req, res) => {
+router.get("/:id", [auth, admin], async (req, res) => {
   try {
     const customer = await Customers.findById(req.params.id);
     res.send(customer);
@@ -24,7 +25,7 @@ router.get("/:id", async (req, res) => {
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 // ADD√------------------------------------------------------------------------------------------------------------------------------------------------
-router.post("/", async (req, res) => {
+router.post("/", [auth, admin], async (req, res) => {
   //, auth
   const { error } = validation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -39,7 +40,7 @@ router.post("/", async (req, res) => {
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 // MODIFY√------------------------------------------------------------------------------------------------------------------------------------------------
-router.put("/:id", async (req, res) => {
+router.put("/:id", [auth, admin], async (req, res) => {
   const { error } = validation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
   try {
@@ -56,7 +57,7 @@ router.put("/:id", async (req, res) => {
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 // DELETE√------------------------------------------------------------------------------------------------------------------------------------------------
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", [auth, admin], async (req, res) => {
   try {
     const customer = await Customers.findByIdAndRemove(req.params.id);
     if (!customer)

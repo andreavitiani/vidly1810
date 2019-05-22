@@ -1,3 +1,4 @@
+const admin = require("../middleware/admin.js");
 const auth = require("../middleware/auth.js");
 const config = require("config");
 const jwt = require("jsonwebtoken");
@@ -15,32 +16,17 @@ router.post("/", async (req, res) => {
 
   let user = await User.findOne({ email: req.body.email });
   if (user) return res.status(400).send("This email is already registered.");
-  // user = new User({
-  //   name: req.body.name,
-  //   email: req.body.email,
-  //   password: req.body.password
-  // });
 
-  user = new User(_.pick(req.body, ["name", "email", "password"]));
-
+  user = new User(_.pick(req.body, ["name", "email", "password", "isAdmin"])); //loadash.pick method
   //PASSWORD ENCRYPTION THROUGH BCRYPT
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
-
   const token = user.generateAuthToken();
-
-  // const token = jwt.sign(
-  //   { _id: user._id, name: user.name },
-  //   config.get("jwtPrivateKey")
-  // );
-
   try {
     await user.save();
-    // res.send(user); //this is wrong because it returns the password to the client
-    // res.send({ name: user.name, email: user.email }); // this is correct because it returns no password to the client but there is the npm_Lodash pkg syntax that is more "elegant"
     res
       .header("x-auth-token", token) //send back to the client the token as an hearder element
-      .send(_.pick(user, ["_id", "name", "email"])); // lodash*npm_pakage* sintax
+      .send(_.pick(user, ["_id", "name", "email", "isAdmin"])); // lodash sintax. It is the underscore convention name for loadash.
   } catch (error) {
     return res.status(400).send("This email is alredy registered...");
   }
@@ -48,7 +34,7 @@ router.post("/", async (req, res) => {
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 // READ THE CURRENT USER√------------------------------------------------------------------------------------------------------------------------------------------------
-router.get("/:me", async (req, res) => {
+router.get("/:me", [auth, admin], async (req, res) => {
   //, auth
   const user = await User.findById(req.user._id).select("-password");
   res.send(user);

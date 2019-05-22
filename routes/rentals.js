@@ -1,3 +1,4 @@
+const admin = require("../middleware/admin.js");
 const auth = require("../middleware/auth.js");
 const mongoose = require("mongoose");
 const { Rental, validation } = require("./../models/rental.js");
@@ -17,7 +18,7 @@ Fawn.init("mongodb://127.0.0.1:27017/vidly");
 //CRUD
 
 //CREATE  ----------attenzione---- se incricca se uno degli id non esiste sistemare con if(!movie) edif(!customer) in quanto try catch è gia implementale
-router.post("/", async (req, res) => {
+router.post("/", [auth, admin], async (req, res) => {
   //, auth
   const { error } = validation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -74,7 +75,7 @@ router.post("/", async (req, res) => {
 });
 
 //READ
-router.get("/", async (req, res) => {
+router.get("/", [auth, admin], async (req, res) => {
   const rentals = await Rental.find().sort("-dateOut");
   res.send(rentals);
 });

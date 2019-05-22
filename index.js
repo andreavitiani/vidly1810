@@ -38,8 +38,6 @@ mongoose
   .catch(err => console.error("Could not connect to mongo db", err));
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-// const logger = require("./middleware/logger.js");
-const authenticator = require("./middleware/authenticator.js");
 //SERVER
 const app = express();
 let port = process.env.PORT || 3000;

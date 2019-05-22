@@ -1,9 +1,6 @@
 extends layout
-
 block content
-    
-
-    form.container
+    form.container(action="/api/auth", method="post")
         h1.text-center #{title}
         .form-group
             label(for='exampleInputEmail1') Email address

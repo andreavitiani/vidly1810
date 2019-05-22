@@ -1,3 +1,5 @@
+//AKA LOGIN FILE
+
 const config = require("config");
 const jwt = require("jsonwebtoken");
 const { User } = require("./../models/user.js");
@@ -23,9 +25,8 @@ router.post("/", async (req, res) => {
 
   const token = user.generateAuthToken();
 
-  // const token = jwt.sign({ _id: user._id }, config.get("jwtPrivateKey"));
-
-  res.send(token);
+  res.header("x-auth-token", token).send(token);
+  // console.log(config.get("jwtPrivateKey")); //niiiiiiiiice!!!!!
 });
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
