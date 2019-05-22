@@ -17,7 +17,8 @@ Fawn.init("mongodb://127.0.0.1:27017/vidly");
 //CRUD
 
 //CREATE  ----------attenzione---- se incricca se uno degli id non esiste sistemare con if(!movie) edif(!customer) in quanto try catch è gia implementale
-router.post("/", auth, async (req, res) => {
+router.post("/", async (req, res) => {
+  //, auth
   const { error } = validation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
   let customer;
@@ -25,7 +26,7 @@ router.post("/", auth, async (req, res) => {
   try {
     customer = await Customers.findById(req.body.customerId);
     if (!customer)
-      return res.status(404).send("The requested genre does not exist");
+      return res.status(404).send("The requested costumer does not exist");
   } catch (error) {
     return res
       .status(400)
@@ -36,9 +37,7 @@ router.post("/", auth, async (req, res) => {
     if (!movie)
       return res.status(404).send("The requested movie does not exist");
   } catch (error) {
-    return res
-      .status(400)
-      .send("(catch)This movie is not present in the database");
+    return res.status(400).send("This movie is not present in the database");
   }
 
   let rental = new Rental({

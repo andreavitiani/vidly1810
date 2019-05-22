@@ -42,7 +42,7 @@ mongoose
 const authenticator = require("./middleware/authenticator.js");
 //SERVER
 const app = express();
-let port = process.env.PORT || 3001;
+let port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`listening to port ${port}`));
 //APPLICATION LEVEL MIDDLEWARES
 app.use(helmet());

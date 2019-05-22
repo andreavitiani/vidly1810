@@ -23,12 +23,13 @@ router.get("/", async (req, res) => {
 
 // CHECK BY ID------------------------------------------------------------------------------------------------------------------------------------------------
 router.get("/:id", async (req, res) => {
-  try {
-    const genre = await Genre.findById(req.params.id);
-    res.send(genre);
-  } catch (err) {
-    res.status(404).send("The requested genre does not exist");
-  }
+  // try {
+  const genre = await Genre.findById(req.params.id);
+  res.send(genre);
+  // }
+  // catch (err) {
+  //   res.status(404).send("The requested genre does not exist");
+  // }
 });
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -40,7 +41,7 @@ router.post("/", async (req, res) => {
 
   let genre = await Genre.findOne({ name: req.body.name });
   if (genre)
-    return res.status(402).send("The genre is already on the database");
+    return res.status(400).send("The genre is already on the database");
 
   genre = new Genre({
     name: req.body.name
@@ -68,9 +69,10 @@ router.put("/:id", async (req, res) => {
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 // DELETE√------------------------------------------------------------------------------------------------------------------------------------------------
-router.delete("/:id", [auth, admin], async (req, res) => {
+router.delete("/:id", async (req, res) => {
+  //aggiungi , [auth, admin] per verifica token
   try {
-    const genre = await Genre.findOne(req.params.id);
+    const genre = await Genre.findByIdAndRemove(req.params.id);
     if (!genre)
       return res.status(404).send("The requested genre does not exist");
     res.send("The genre is deleted");
