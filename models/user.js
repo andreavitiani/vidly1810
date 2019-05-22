@@ -1,7 +1,17 @@
 const config = require("config");
 const jwt = require("jsonwebtoken");
 const Joi = require("joi");
+const PasswordComplexity = require("joi-password-complexity");
 const mongoose = require("mongoose");
+
+const complexityOptions = {
+  min: 8,
+  max: 30,
+  lowerCase: 1,
+  upperCase: 1,
+  numeric: 1,
+  requirementCount: 3
+};
 
 //USER SCHEMA------------------------------------------------------------------------------------------------------------------
 const userScheme = new mongoose.Schema({
@@ -32,10 +42,7 @@ function validation(user) {
       .min(6)
       .max(255)
       .email(),
-    password: Joi.string()
-      .required()
-      .min(5)
-      .max(255)
+    password: new PasswordComplexity(complexityOptions).required()
   });
   return Joi.validate(user, schema);
 }
