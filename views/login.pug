@@ -26,6 +26,7 @@ block content
     //-         input#exampleInputPassword1.form-control( name="password" type='password', placeholder='Password')
     //-     button.btn.btn-primary(type='submit') Submit
     .container.text-center.mt-5
+        h5= title
         .row.justify-content-center.align-items-center
             .col-lg-4
                 form.form-signin(action="/api/auth", method="post")

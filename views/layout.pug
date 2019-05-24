@@ -18,25 +18,41 @@ html
         main.flex-shrink-0(role='main')
             if loggedIn
                 nav.navbar.navbar-expand-lg.navbar-light.bg-light
-                    a.navbar-brand(href='/')
-                        img.d-inline-block.align-top(src="public/assets/images/logo-vidly.png", width='30', height='30', alt='')
-                        |Vidly
-                    button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
-                        span.navbar-toggler-icon
-                    #navbarSupportedContent.collapse.navbar-collapse
-                        ul.navbar-nav.mr-auto
-                            li.nav-item.active
-                                a.nav-link(href='/dashboard')
-                                    | Home 
-                                span.sr-only (current)
-                            li.nav-item.dropdown
-                                a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
-                                    | Genres
-                                .dropdown-menu(aria-labelledby='navbarDropdown')
-                                    a.dropdown-item(href='/add-new-genre') Add new
-                                    a.dropdown-item(href='/delete-genre') Delete
-                                    a.dropdown-item(href='/list-genres') List all
+                    .container.d-flex.justify-content-between
+                        a.navbar-brand(href='/dashboard')
+                            img.d-inline-block.align-top(src="public/assets/images/logo-vidly.png", width='30', height='30', alt='')
+                            |Vidly
+                        button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+                            span.navbar-toggler-icon
+                        #navbarSupportedContent.collapse.navbar-collapse
+                            ul.navbar-nav.mr-auto
+                                li.nav-item.active
+                                    a.nav-link(href='/dashboard')
+                                        | Home 
+                                    span.sr-only (current)
                                 li.nav-item.dropdown
+                                    a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                                        | Genres
+                                    .dropdown-menu(aria-labelledby='navbarDropdown')
+                                        a.dropdown-item(href='/add-new-genre') Add new
+                                        a.dropdown-item(href='/delete-genre') Delete
+                                        a.dropdown-item(href='/list-genres') List all
+                                li.nav-item.dropdown
+                                    a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                                        | Movies
+                                    .dropdown-menu(aria-labelledby='navbarDropdown')
+                                        a.dropdown-item(href='/add-new-genre') Add new
+                                        a.dropdown-item(href='/delete-genre') Delete
+                                        a.dropdown-item(href='/list-genres') List all
+                                li.nav-item.dropdown
+                                    a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                                        | Clients
+                                    .dropdown-menu(aria-labelledby='navbarDropdown')
+                                        a.dropdown-item(href='/add-new-genre') Add new
+                                        a.dropdown-item(href='/delete-genre') Delete
+                                        a.dropdown-item(href='/list-genres') List all
+                            ul.navbar-nav.mr-0
+                                li.nav-item.dropdown.mr-1
                                     a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                                         | #{username}
                                     .dropdown-menu(aria-labelledby='navbarDropdown')
@@ -48,26 +64,3 @@ html
     footer.footer.mt-auto.py-3.font-small.bg-dark.text-white
         .footer-copyright.text-center.mb-3
             | &copy; 2019 Copyright: Andy
-    //- footer#myFooter.fixed-bottom
-    //-     .container
-    //-         ul
-    //-             li
-    //-                 a(href='#') Company Information
-    //-             li
-    //-                 a(href='#') Contact us
-    //-             li
-    //-                 a(href='#') Reviews
-    //-             li
-    //-                 a(href='#') Terms of service
-    //-         p.footer-copyright © 2019 Andy Vitiani
-    //-     .footer-social
-    //-         a.social-icons(href='#')
-    //-             i.fa.fa-facebook
-    //-         a.social-icons(href='#')
-    //-             i.fa.fa-google-plus
-    //-         a.social-icons(href='#')
-    //-             i.fa.fa-twitter
-
-
-    //- footer(class="page-footer font-small blue")
-    //-     p copyright &copy; Andrea 2019

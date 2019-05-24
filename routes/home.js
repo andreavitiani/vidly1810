@@ -5,9 +5,16 @@ const { Genre, validation } = require("./../models/genre.js");
 const admin = require("../middleware/admin.js");
 const auth = require("../middleware/auth.js");
 
+// router.use(function(req, res, next) {
+//   const loggedIn = req.cookies["x-auth-token"];
+//   if (!loggedIn) res.redirect("/");
+//   next();
+// });
+
 //ROUTING HOME--------------------------------------------------------------------------------------------------------
 router.get("/", (req, res) => {
   const loggedIn = req.cookies["x-auth-token"];
+  // if (!loggedIn) res.redirect("/");
   const username = req.cookies["username"];
   res.render("login", {
     title: "Vidly",
@@ -16,8 +23,9 @@ router.get("/", (req, res) => {
   });
 });
 
-router.get("/profile", (req, res) => {
+router.get("/profile", auth, (req, res) => {
   const loggedIn = req.cookies["x-auth-token"];
+  // if (!loggedIn) res.redirect("/");
   const username = req.cookies["username"];
   // const user = await User.find().sort("name");
   res.render("profile", {
@@ -29,6 +37,7 @@ router.get("/profile", (req, res) => {
 
 router.get("/login", (req, res) => {
   const loggedIn = req.cookies["x-auth-token"];
+  // if (!loggedIn) res.redirect("/");
   const username = req.cookies["username"];
   res.render("login", {
     title: "LOGIN",
@@ -37,8 +46,9 @@ router.get("/login", (req, res) => {
   });
 });
 
-router.get("/dashboard", (req, res) => {
+router.get("/dashboard", auth, (req, res) => {
   const loggedIn = req.cookies["x-auth-token"];
+  // if (!loggedIn) res.redirect("/");
   const username = req.cookies["username"];
   res.render("dashboard", {
     title: "DASHBOARD",
@@ -47,8 +57,9 @@ router.get("/dashboard", (req, res) => {
   });
 });
 
-router.get("/list-genres", async (req, res) => {
+router.get("/list-genres", auth, async (req, res) => {
   const loggedIn = req.cookies["x-auth-token"];
+  // if (!loggedIn) res.redirect("/");
   const username = req.cookies["username"];
   const genres = await Genre.find().sort("name");
   res.render("list-genres", {
@@ -60,8 +71,9 @@ router.get("/list-genres", async (req, res) => {
 
 // -----
 
-router.get("/delete-genre", async (req, res) => {
+router.get("/delete-genre", auth, async (req, res) => {
   const loggedIn = req.cookies["x-auth-token"];
+  // if (!loggedIn) res.redirect("/");
   const username = req.cookies["username"];
   res.render("delete-genre", {
     title: "DELETE A GENRE",
@@ -70,8 +82,9 @@ router.get("/delete-genre", async (req, res) => {
   });
 });
 
-router.get("/add-new-genre", async (req, res) => {
+router.get("/add-new-genre", auth, async (req, res) => {
   const loggedIn = req.cookies["x-auth-token"];
+  // if (!loggedIn) res.redirect("/");
   const username = req.cookies["username"];
   res.render("add-new-genre", {
     title: "ADD A GENRE",
