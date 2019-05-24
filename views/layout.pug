@@ -36,11 +36,12 @@ html
                                     a.dropdown-item(href='/add-new-genre') Add new
                                     a.dropdown-item(href='/delete-genre') Delete
                                     a.dropdown-item(href='/list-genres') List all
-                            li.nav-item.active.mr-3
-                                a.nav-link(href='/profile')
-                                    | Profile 
-                        form(action="/api/auth/logout", method="get")
-                            button.my-2.my-lg-0.nav-link(type='submit') Logout
+                                li.nav-item.dropdown
+                                    a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                                        | #{username}
+                                    .dropdown-menu(aria-labelledby='navbarDropdown')
+                                        a.dropdown-item(href='/profile') My profile
+                                        a.dropdown-item(href='/api/auth/logout') Log-out
     block content
     br
     hr
