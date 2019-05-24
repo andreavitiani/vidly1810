@@ -12,6 +12,8 @@ const Joi = require("joi");
 
 //THIS IS A LOGIN MODULE
 
+// const loggedIn = req.cookies["x-auth-token"];
+
 // CREATE√ IN THIS CASE MEANS VALIDATE IF A USER EXIST AND CREDENTIAL ARE CORRECT AND GENERATE JWS------------------------------------------------------------------------------------------------------------------------------------------------
 router.post("/", async (req, res) => {
   const { error } = validation(req.body);
@@ -25,8 +27,16 @@ router.post("/", async (req, res) => {
 
   const token = user.generateAuthToken();
 
-  res.header("x-auth-token", token).send(token);
+  res.cookie("x-auth-token", token);
+  res.cookie("username", user.name);
+  res.redirect("/dashboard");
   // console.log(config.get("jwtPrivateKey")); //niiiiiiiiice!!!!!
+});
+
+router.get("/logout", async (req, res) => {
+  res.clearCookie("x-auth-token");
+  res.clearCookie("username");
+  res.redirect("/");
 });
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

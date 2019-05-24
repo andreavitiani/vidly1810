@@ -7,17 +7,16 @@ const router = express.Router();
 const mongoose = require("mongoose");
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-// router.use(logger);
 
 //REST HANDLERS WITH CRUD------------------------------------------------------------------------------------------------------------------------------------------------
 // CHECK ALL√------------------------------------------------------------------------------------------------------------------------------------------------
 router.get("/", async (req, res) => {
   const genres = await Genre.find().sort("name");
-  // res.render("index", {
-  //   title: "GENRES LIST",
-  //   genres
-  // });
-  res.send(genres);
+  res.render("list-genres", {
+    title: "GENRES LIST",
+    genres
+  });
+  // res.send("genres");
 });
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -47,7 +46,7 @@ router.post("/", [auth, admin], async (req, res) => {
   });
 
   await genre.save();
-  res.send(genre);
+  res.redirect("/list-genres");
 });
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -83,12 +82,15 @@ router.delete("/:id", [auth, admin], async (req, res) => {
 //DELETE BY NAME IN GUI
 
 router.post("/deletebyname", [auth, admin], async (req, res) => {
+  const loggedIn = req.cookies["x-auth-token"];
   try {
     let genre = await Genre.findOne({ name: req.body.name });
+    const genres = await Genre.find().sort("name");
     if (!genre)
       return res.status(404).send("The requested genre does not exist");
     genre = await Genre.findOneAndRemove({ name: req.body.name }).exec();
-    res.send("The genre is deleted");
+
+    res.render("delete-genre", loggedIn);
   } catch (error) {
     return res.status(404).send("The requested genre does not exist");
   }

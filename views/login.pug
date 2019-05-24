@@ -1,12 +1,43 @@
 extends layout
 block content
-    form.container(action="/api/auth", method="post")
-        h1.text-center #{title}
-        .form-group
-            label(for='exampleInputEmail1') Email address
-            input#exampleInputEmail1.form-control(name="email" type='email', aria-describedby='emailHelp', placeholder='Enter email')
-            small#emailHelp.form-text.text-muted We'll never share your email with anyone else.
-        .form-group
-            label(for='exampleInputPassword1') Password
-            input#exampleInputPassword1.form-control( name="password" type='password', placeholder='Password')
-        button.btn.btn-primary(type='submit') Submit
+    //- style(type="text/css").
+    //-     table {
+    //-         width: 100%
+    //-     }
+    //- style(type='text/css')
+    //-     bd-placeholder-img
+    //-         {font-size: 1.125rem
+    //-         text-anchor: middle
+    //-         -webkit-user-select: none
+    //-         -moz-user-select: none
+    //-         -ms-user-select: none
+    //-         user-select: none}
+        //- @media (min-width: 768px)
+        //-     {.bd-placeholder-img-lg
+        //-     font-size: 3.5rem}
+    //- form.container(action="/api/auth", method="post")
+    //-     h1.text-center #{title}
+    //-     .form-group
+    //-         label(for='exampleInputEmail1') Email address
+    //-         input#exampleInputEmail1.form-control(name="email" type='email', aria-describedby='emailHelp', placeholder='Enter email')
+    //-         small#emailHelp.form-text.text-muted We'll never share your email with anyone else.
+    //-     .form-group
+    //-         label(for='exampleInputPassword1') Password
+    //-         input#exampleInputPassword1.form-control( name="password" type='password', placeholder='Password')
+    //-     button.btn.btn-primary(type='submit') Submit
+    .container.text-center.mt-5
+        .row.justify-content-center.align-items-center
+            .col-lg-4
+                form.form-signin(action="/api/auth", method="post")
+                    img.mb-4(src='public/assets/images/logo-vidly.png', alt='', width='72', height='72')
+                    h1.h3.mb-3.font-weight-normal Please sign in
+                    label.sr-only(for='inputEmail') Email address
+                    input#inputEmail.form-control(type='email' name="email" placeholder='Email address' required autofocus)
+                    label.sr-only(for='inputPassword') Password
+                    input#inputPassword.form-control(type='password', name="password" placeholder='Password', required='')
+                    //- .checkbox.mb-3
+                        //- label
+                            //- input(type='checkbox', value='remember-me')
+                            //- |  Remember me
+                    button.btn.btn-lg.btn-primary.btn-block(type='submit') Sign in
+                    p.mt-5.mb-3.text-muted © 2017-2019

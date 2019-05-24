@@ -23,8 +23,9 @@ const userScheme = new mongoose.Schema({
 
 userScheme.methods.generateAuthToken = function() {
   const token = jwt.sign(
-    { name: this.name, isAdmin: this.isAdmin },
-    config.get("jwtPrivateKey")
+    { _id: this._id, name: this.name, isAdmin: this.isAdmin },
+    config.get("jwtPrivateKey"),
+    { expiresIn: "3h" }
   );
   return token;
 }; //what is this??? Instead of writing everytime an auth token you declare a function iside the mongoose schema object. This method will be called whenever you need to generate the token and it is easily mantainable and modifiable

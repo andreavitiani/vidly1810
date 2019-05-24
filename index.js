@@ -14,6 +14,8 @@ const rentals = require("./routes/rentals.js");
 const users = require("./routes/users.js");
 const home = require("./routes/home.js");
 const express = require("express");
+// const flash = require("connect-flash");
+const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const auth = require("./routes/auth.js");
 const Joi = require("joi");
@@ -45,7 +47,7 @@ app.listen(port, () => console.log(`listening to port ${port}`));
 //APPLICATION LEVEL MIDDLEWARES
 app.use(helmet());
 // app.use(methodOverride("_method"));
-
+app.use(cookieParser());
 app.use(
   methodOverride(function(req, res) {
     if (req.body && typeof req.body === "object" && "_method" in req.body) {
@@ -56,6 +58,21 @@ app.use(
     }
   })
 );
+
+// app.use(function(req,res,next) {
+//   res.locals = {
+//     title : 'your title',
+//     description : 'your description'
+//   };
+//   return next();
+// });
+
+// app.use(flash());
+// app.use(function(req, res, next) {
+//   res.locals.success = req.flash("success");
+//   res.locals.errors = req.flash("error");
+//   next();
+// });
 
 // //MORGAN
 // if (app.get("env") === "development") {
