@@ -10,15 +10,16 @@ block content
             label(for="name") NAME:__
             input#exampleInput(type="text", name="name", placeholder="genre to delete")
             br
-            button.btn.btn-primary(type="submit" data-toggle="modal" data-target="#exampleModal") SUBMIT
-    #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
-        .modal-dialog(role='document')
-            .modal-content
-                .modal-header
-                    h5#exampleModalLabel.modal-title Modal title
-                    button.close(type='button', data-dismiss='modal', aria-label='Close')
-                    span(aria-hidden='true') ×
-                .modal-body
-                    | ...
-                .modal-footer
-                    button.btn.btn-secondary(type='button', data-dismiss='modal') Close
+            button.btn.btn-primary(type="submit") SUBMIT 
+            //- data-toggle="modal" data-target="#exampleModal"
+    //- #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+    //-     .modal-dialog(role='document')
+    //-         .modal-content
+    //-             .modal-header
+    //-                 h5#exampleModalLabel.modal-title Modal title
+    //-                 button.close(type='button', data-dismiss='modal', aria-label='Close')
+    //-                 span(aria-hidden='true') ×
+    //-             .modal-body
+    //-                 | ...
+    //-             .modal-footer
+    //-                 button.btn.btn-secondary(type='button', data-dismiss='modal') Close
