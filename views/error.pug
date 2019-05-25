@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    style.
+        #footer {display: none}
+    .container.h-100.mt-lg-4.mt-1.d-flex.justify-content-center.text-center.align-items-center
+        .row.align-middle
+            .col-10
+                img.d-inline-block.align-top(src="public/assets/images/logo-vidly.png", width='100', height='100', alt='vidly-logo')
+                h3.mt-lg-4.mt-1 Sorry, #{error}. 
+                    p
+                        a(href="/") Back to home page

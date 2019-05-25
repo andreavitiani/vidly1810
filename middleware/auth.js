@@ -2,6 +2,8 @@ const jwt = require("jsonwebtoken");
 const config = require("config");
 
 module.exports = function(req, res, next) {
+  const loggedIn = req.cookies["x-auth-token"];
+  if (!loggedIn) res.redirect("/");
   const token = req.cookies["x-auth-token"];
   const usermane = req.cookies["username"];
   if (!token) return res.status(401).redirect("/"); //token missing

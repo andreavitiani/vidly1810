@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const { Genre, validation } = require("./../models/genre.js");
-// const { Genre, validation } = require("./../models/genre.js");
 const admin = require("../middleware/admin.js");
 const auth = require("../middleware/auth.js");
 
@@ -14,9 +13,9 @@ const auth = require("../middleware/auth.js");
 //ROUTING HOME--------------------------------------------------------------------------------------------------------
 router.get("/", (req, res) => {
   const loggedIn = req.cookies["x-auth-token"];
-  // if (!loggedIn) res.redirect("/");
+  if (!loggedIn) res.render("login");
   const username = req.cookies["username"];
-  res.render("login", {
+  res.render("dashboard", {
     title: "Vidly",
     loggedIn,
     username
@@ -37,7 +36,7 @@ router.get("/profile", auth, (req, res) => {
 
 router.get("/login", (req, res) => {
   const loggedIn = req.cookies["x-auth-token"];
-  // if (!loggedIn) res.redirect("/");
+  if (loggedIn) res.redirect("/");
   const username = req.cookies["username"];
   res.render("login", {
     title: "LOGIN",
@@ -47,7 +46,7 @@ router.get("/login", (req, res) => {
 });
 
 router.get("/dashboard", auth, (req, res) => {
-  const loggedIn = req.cookies["x-auth-token"];
+  // const loggedIn = req.cookies["x-auth-token"];
   // if (!loggedIn) res.redirect("/");
   const username = req.cookies["username"];
   res.render("dashboard", {
@@ -58,7 +57,7 @@ router.get("/dashboard", auth, (req, res) => {
 });
 
 router.get("/list-genres", auth, async (req, res) => {
-  const loggedIn = req.cookies["x-auth-token"];
+  // const loggedIn = req.cookies["x-auth-token"];
   // if (!loggedIn) res.redirect("/");
   const username = req.cookies["username"];
   const genres = await Genre.find().sort("name");
@@ -72,7 +71,7 @@ router.get("/list-genres", auth, async (req, res) => {
 // -----
 
 router.get("/delete-genre", auth, async (req, res) => {
-  const loggedIn = req.cookies["x-auth-token"];
+  // const loggedIn = req.cookies["x-auth-token"];
   // if (!loggedIn) res.redirect("/");
   const username = req.cookies["username"];
   res.render("delete-genre", {
@@ -83,7 +82,7 @@ router.get("/delete-genre", auth, async (req, res) => {
 });
 
 router.get("/add-new-genre", auth, async (req, res) => {
-  const loggedIn = req.cookies["x-auth-token"];
+  // const loggedIn = req.cookies["x-auth-token"];
   // if (!loggedIn) res.redirect("/");
   const username = req.cookies["username"];
   res.render("add-new-genre", {

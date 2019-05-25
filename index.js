@@ -1,6 +1,5 @@
 //DEPENDENCIES
 const methodOverride = require("method-override");
-// const pug = require("pug");
 const jwt = require("jsonwebtoken");
 const debug = require("debug")("app:startup");
 // const dbDebugger = require("debug")("app:db");
@@ -14,7 +13,6 @@ const rentals = require("./routes/rentals.js");
 const users = require("./routes/users.js");
 const home = require("./routes/home.js");
 const express = require("express");
-// const flash = require("connect-flash");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const auth = require("./routes/auth.js");
@@ -25,21 +23,16 @@ if (!config.get("jwtPrivateKey")) {
   console.log("FATAL ERROR: jwtPrivateKey is not defined...");
   process.exit(1);
 }
-
-const Fawn = require("fawn"); // FAWN ALLOWS TO SIMULATE TRANSACTION (FROM SQL) IN NODE.JS THAT DOESNT HAVE THIS CONSTRUCT. THIS USE "TWO PHASE COMMITS" OF NODE UNDER THE HOOD FAWN HAS AN MPATH DEPENDENCY THAT HAVE A VULNERABILITY AND MPATH SHOULD BE UPDATE FROM THE DEVS
-// //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-// //FAWN "TRANSACTION" SETUP-----------------------------------------------------------------------------------------------------------------------
-
-Fawn.init(mongoose);
-
-// MONGOOSE MONGODB SETTING UP------------------------------------------------------------------------------------------------------------------------------------------------
+// MONGOOSE MONGODB SETTING----------------------------------------------------------------------
 mongoose
   .connect("mongodb://localhost/vidly", { useNewUrlParser: true })
   .then(() => console.log("connected to mongo db"))
   .catch(err => console.error("Could not connect to mongo db", err));
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+//fawn
+const Fawn = require("fawn");
+Fawn.init(mongoose);
 
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 //SERVER
 const app = express();
 let port = process.env.PORT || 3000;
@@ -58,42 +51,21 @@ app.use(
     }
   })
 );
-
-// app.use(function(req,res,next) {
-//   res.locals = {
-//     title : 'your title',
-//     description : 'your description'
-//   };
-//   return next();
-// });
-
-// app.use(flash());
-// app.use(function(req, res, next) {
-//   res.locals.success = req.flash("success");
-//   res.locals.errors = req.flash("error");
-//   next();
-// });
-
+//debug
 // //MORGAN
 // if (app.get("env") === "development") {
 //   app.use(morgan("tiny"));
 //   console.log("I am using morgan because I AM IN DEVELOPMENT MODE");
 //   debug("morgan enabled...");
 // }
-
-// //template engine middleware-------------------------------------------------------------------------------------
+//template engine middleware-------------------------------------------------------------------------------------
 app.set("view engine", "pug");
 app.set("views", "./views"); // The view folder is the default value. Can be changed.
-
-//custom middlewares-------------------------------------------------------------------------------------
-// app.use(logger);
-// app.use(authenticator);
-//URL OR BODY parsers middlewares-------------------------------------------------------------------------------------
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 //static website middleware-------------------------------------------------------------------------------------
 app.use("/public", express.static("public"));
-//routing middleware //ARE THESE ROUTING LEVEL MIDDLEWARES?*************--------------------------------------------------------------------
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+//routing middleware--------------------------------------------------------------------
 app.use("/api/genres", genres);
 app.use("/api/customers", customers);
 app.use("/api/movies", movies);
@@ -101,9 +73,25 @@ app.use("/api/rentals", rentals);
 app.use("/api/users", users);
 app.use("/api/auth", auth);
 app.use("/", home);
+// Handle 404
+app.use(function(req, res) {
+  const error = 404;
+  res.status(404);
+  // const token = req.cookies("x-aut-token");
+  // console.log(req.cookies("x-aut-token"));
+  // if (!token) res.redirect("/");
+  res.render("error", { error: "page not found, 404" });
+});
+// Handle 500
+app.use(function(error, req, res, next) {
+  // const token = req.cookie("x-aut-token");
+  // if (!token) res.redirect("/");
+  // console.log(token);
 
-//CASINO NEL CONFIGURARE VARIABILI ENVIRONAMENTALI, DOVE SONO STOCCATE? IN QUALE FILE?****** "SONO STOCCATE IN PROCESS CHE È UN OGGETTO GLOBALE COME KEY VALUE PAIRS"
-//configuration using the config package dependency. you create a congig file with json files with specific names instead of saving anv variables via cli or inside the source code
+  const error = 500;
+  res.status(500);
+  res.render("error", { error: 500 });
+});
 
 //DEBUG CONSOLE LOGS----------------------------------------------------------------------------------------------------------------------------------------
 // console.log(`Application name: ${config.get("name")}`);
