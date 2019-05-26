@@ -75,7 +75,7 @@ app.use("/api/auth", auth);
 app.use("/", home);
 // Handle 404
 app.use(function(req, res) {
-  const error = 404;
+  let error = 404;
   res.status(404);
   // const token = req.cookies("x-aut-token");
   // console.log(req.cookies("x-aut-token"));
@@ -88,7 +88,7 @@ app.use(function(error, req, res, next) {
   // if (!token) res.redirect("/");
   // console.log(token);
 
-  const error = 500;
+  error = 500;
   res.status(500);
   res.render("error", { error: 500 });
 });

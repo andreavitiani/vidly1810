@@ -77,7 +77,8 @@ router.post("/", [auth, admin], async (req, res) => {
 //READ
 router.get("/", [auth, admin], async (req, res) => {
   const rentals = await Rental.find().sort("-dateOut");
-  res.send(rentals);
+  // res.send(rentals);
+  res.redirect("/rentals");
 });
 
 module.exports = router;

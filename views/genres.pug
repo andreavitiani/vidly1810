@@ -13,11 +13,13 @@ block content
             table.table.table-dark
                 thead
                     tr
-                        th(scope='col') Genres
+                        th(scope='col') genre
+                        th(scope='col') id
                 each genre in genres
                     tbody
                         tr
                             td=genre.name
+                            td=genre.id
                             td
                                 form(action="/api/genres/deletebyname", method="post")
                                     input.mr-3#exampleInput.invisible(type="text", name="name", value=genre.name)

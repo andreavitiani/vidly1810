@@ -3,18 +3,31 @@ extends layout
 block content
     .container.mt-lg-4.mt-2.mb-lg-4.mb-2
         h1.text-center=title
+        //- .row.mb-4
+        //-     col-6.py-3.pr-lg-5
+        //-         form(action="/api/movies", method="post")
+        //-             label.mr-3(for="title") ADD:
+        //-             input.mr-3#exampleInput(type="text", name="title", placeholder="title")
+        //-             input.mr-3#exampleInput(type="text", name="genreId", placeholder="genreId", value="5cea598e9a6cba7a4a3d6880")
+        //-             input.mr-3#exampleInput(type="text", name="numberInStock", placeholder="Number in stock")
+        //-             input.mr-3#exampleInput(type="text", name="dailyRentalRate", placeholder="Cost per day")
+        //-             button.btn.btn-primary(type="submit") SUBMIT
         .row.mb-4
             col-6.py-3.pr-lg-5
-                form(action="/api/movies", method="post")
-                    label.mr-3(for="title") ADD:
-                    input.mr-3#exampleInput(type="text", name="title", placeholder="title")
-                    //- input.mr-3#exampleInput(type="text", name="genreId", placeholder="genreId")
-                    select.form-control#exampleFormControlSelect1(name="name")
-                        each genre in genres
-                            option=genre.name
-                    input.mr-3#exampleInput(type="text", name="numberInStock", placeholder="Number in stock")
-                    input.mr-3#exampleInput(type="text", name="dailyRentalRate", placeholder="Cost per day")
-                    button.btn.btn-primary(type="submit") SUBMIT
+                h4 ADD:
+                form(action="/api/movies/add", method="post")
+                    .form-group
+                        input.mr-3#exampleInput(type="text", name="title", placeholder="title")
+                    .form-group
+                        select.form-control#exampleFormControlSelect1(name="genreId")
+                            each genre in genres
+                                option(value=genre.id)=genre.name
+                    .form-group
+                        input.mr-3#exampleInput(type="text", name="numberInStock", placeholder="Number in stock")
+                    .form-group
+                        input.mr-3#exampleInput(type="text", name="dailyRentalRate", placeholder="Cost per day")
+                    .form-group
+                        button.btn.btn-primary(type="submit") SUBMIT
         .row
             table.table.table-dark
                 thead
@@ -32,7 +45,7 @@ block content
                             td=movie.title
                             td=movie.genre.name
                             td=movie.numberInStock
-                            td=movie.dailyRentalRate
+                            td #{movie.dailyRentalRate} usd
                             td
                                 form(action="/api/movies/delete", method="post")
                                     input.mr-3#exampleInput.invisible(type="text", name="id", value=movie.id)

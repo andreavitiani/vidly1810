@@ -30,27 +30,36 @@ html
                                     a.nav-link(href='/dashboard')
                                         | Home 
                                     span.sr-only (current)
-                                li.nav-item.dropdown
-                                    a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
-                                        | Genres
-                                    .dropdown-menu(aria-labelledby='navbarDropdown')
-                                        a.dropdown-item(href='/add-new-genre') Add new
-                                        a.dropdown-item(href='/delete-genre') Delete
-                                        a.dropdown-item(href='/list-genres') List all
-                                li.nav-item.dropdown
-                                    a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                                li.nav-item.active
+                                    a.nav-link(href='/genres')
+                                        | Genres 
+                                li.nav-item.active
+                                    a.nav-link(href='/movies')
                                         | Movies
-                                    .dropdown-menu(aria-labelledby='navbarDropdown')
-                                        a.dropdown-item(href='/add-new-genre') Add new
-                                        a.dropdown-item(href='/delete-genre') Delete
-                                        a.dropdown-item(href='/list-genres') List all
-                                li.nav-item.dropdown
-                                    a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
-                                        | Clients
-                                    .dropdown-menu(aria-labelledby='navbarDropdown')
-                                        a.dropdown-item(href='/add-new-genre') Add new
-                                        a.dropdown-item(href='/delete-genre') Delete
-                                        a.dropdown-item(href='/list-genres') List all
+                                li.nav-item.active
+                                    a.nav-link(href='/rentals')
+                                        | Rentals-to-fix
+                                //- li.nav-item.dropdown
+                                //-     a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                                //-         | Genres
+                                //-     .dropdown-menu(aria-labelledby='navbarDropdown')
+                                //-         a.dropdown-item(href='/add-new-genre') Add new
+                                //-         a.dropdown-item(href='/delete-genre') Delete
+                                //-         a.dropdown-item(href='/list-genres') List all
+                                //- li.nav-item.dropdown
+                                //-     a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                                //-         | Movies
+                                //-     .dropdown-menu(aria-labelledby='navbarDropdown')
+                                //-         a.dropdown-item(href='/add-new-genre') Add new
+                                //-         a.dropdown-item(href='/delete-genre') Delete
+                                //-         a.dropdown-item(href='/list-genres') List all
+                                //- li.nav-item.dropdown
+                                //-     a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                                //-         | Clients
+                                //-     .dropdown-menu(aria-labelledby='navbarDropdown')
+                                //-         a.dropdown-item(href='/add-new-genre') Add new
+                                //-         a.dropdown-item(href='/delete-genre') Delete
+                                //-         a.dropdown-item(href='/list-genres') List all
                             ul.navbar-nav.mr-0
                                 li.nav-item.dropdown.mr-1
                                     a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { Genre, validation } = require("./../models/genre.js");
+const { Genre } = require("./../models/genre.js");
+const { Movie } = require("./../models/movie.js");
 const admin = require("../middleware/admin.js");
 const auth = require("../middleware/auth.js");
 
@@ -56,18 +57,45 @@ router.get("/dashboard", auth, (req, res) => {
   });
 });
 
-router.get("/list-genres", auth, async (req, res) => {
-  // const loggedIn = req.cookies["x-auth-token"];
-  // if (!loggedIn) res.redirect("/");
+router.get("/genres", auth, async (req, res) => {
+  const loggedIn = req.cookies["x-auth-token"];
+  if (!loggedIn) res.redirect("/");
   const username = req.cookies["username"];
   const genres = await Genre.find().sort("name");
-  res.render("list-genres", {
+  res.render("genres", {
     genres,
     loggedIn,
     username
   });
 });
 
+router.get("/movies", auth, async (req, res) => {
+  const loggedIn = req.cookies["x-auth-token"];
+  if (!loggedIn) res.redirect("/");
+  const username = req.cookies["username"];
+  const movies = await Movie.find().sort("name");
+  const genres = await Genre.find().sort("name");
+  // console.log(genre);
+
+  res.render("movies", {
+    movies,
+    genres,
+    loggedIn,
+    username
+  });
+});
+
+// router.get("/genres", auth, async (req, res) => {
+//   const loggedIn = req.cookies["x-auth-token"];
+//   if (!loggedIn) res.redirect("/");
+//   const username = req.cookies["username"];
+//   const genres = await Genre.find().sort("name");
+//   res.render("genres", {
+//     genres,
+//     loggedIn,
+//     username
+//   });
+// });
 // -----
 
 router.get("/delete-genre", auth, async (req, res) => {

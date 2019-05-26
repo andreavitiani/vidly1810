@@ -12,23 +12,22 @@ const mongoose = require("mongoose");
 // CHECK ALL√------------------------------------------------------------------------------------------------------------------------------------------------
 router.get("/", auth, async (req, res) => {
   const genres = await Genre.find().sort("name");
-  res.render("list-genres", {
-    title: "GENRES LIST",
-    genres
-  });
-  // res.send("genres");
+  // res.render("list-genres", {
+  //   title: "GENRES LIST",
+  //   genres
+  // });
+  res.send("genres");
 });
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 // CHECK BY ID------------------------------------------------------------------------------------------------------------------------------------------------
 router.get("/:id", auth, async (req, res) => {
-  // try {
-  const genre = await Genre.findById(req.params.id);
-  res.send(genre);
-  // }
-  // catch (err) {
-  //   res.status(404).send("The requested genre does not exist");
-  // }
+  try {
+    const genre = await Genre.findById(req.params.id);
+    res.send(genre);
+  } catch (err) {
+    res.status(404).send("The requested genre does not exist");
+  }
 });
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -46,7 +45,7 @@ router.post("/", [auth, admin], async (req, res) => {
   });
 
   await genre.save();
-  res.redirect("/list-genres");
+  res.redirect("/genres");
 });
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -59,7 +58,7 @@ router.put("/:id", [auth, admin], async (req, res) => {
     let genre = await Genre.findById(req.params.id);
     genre.name = req.body.name;
     genre = await genre.save();
-    res.send(genre);
+    res.redirect("/genres");
   } catch (err) {
     res.status(404).send("The requested genre does not exist");
   }
@@ -73,7 +72,7 @@ router.delete("/:id", [auth, admin], async (req, res) => {
     const genre = await Genre.findByIdAndRemove(req.params.id);
     if (!genre)
       return res.status(404).send("The requested genre does not exist");
-    res.redirect("/");
+    res.redirect("/genres");
   } catch (error) {
     return res.status(404).send("The requested genre does not exist");
   }
@@ -85,12 +84,13 @@ router.post("/deletebyname", [auth, admin], async (req, res) => {
   const loggedIn = req.cookies["x-auth-token"];
   try {
     let genre = await Genre.findOne({ name: req.body.name });
-    const genres = await Genre.find().sort("name");
+    console.log(genre);
+
+    // const genres = await Genre.find().sort("name");
     if (!genre)
       return res.status(404).send("The requested genre does not exist");
     genre = await Genre.findOneAndRemove({ name: req.body.name }).exec();
-
-    res.render("delete-genre", loggedIn);
+    res.redirect("/genres");
   } catch (error) {
     return res.status(404).send("The requested genre does not exist");
   }

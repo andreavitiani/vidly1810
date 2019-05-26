@@ -32,7 +32,6 @@ router.get("/:id", auth, async (req, res) => {
 
 // ADD√------------------------------------------------------------------------------------------------------------------------------------------------
 router.post("/", [auth, admin], async (req, res) => {
-  // , auth
   const { error } = validation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
   let genre;
@@ -78,6 +77,33 @@ router.delete("/:id", [auth, admin], async (req, res) => {
   res.send("The movie is deleted");
 });
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+// GUI
+router.post("/delete", [auth, admin], async (req, res) => {
+  const movie = await Movie.findByIdAndRemove(req.body.id);
+  if (!movie) return res.status(404).send("The requested movie does not exist");
+  res.redirect("/movies");
+});
+
+router.post("/add", [auth, admin], async (req, res) => {
+  const { error } = validation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+  let genre;
+  try {
+    genre = await Genre.findById(req.body.genreId);
+  } catch (err) {
+    res.status(404).send("Invalid genre...");
+  }
+
+  let movie = new Movie({
+    title: req.body.title,
+    genre: { _id: genre.id, name: genre.name },
+    numberInStock: req.body.numberInStock,
+    dailyRentalRate: req.body.dailyRentalRate
+  });
+  movie = await movie.save();
+  res.redirect("/movies");
+});
 
 // console.log(authorSchema);
 
