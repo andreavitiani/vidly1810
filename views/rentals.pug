@@ -1,0 +1,43 @@
+extends layout
+
+block content
+    .container.mt-lg-4.mt-2.mb-lg-4.mb-2
+        h1.text-center=title
+        .row.mb-4
+            .col-lg-10.col-11
+                form(action="api/rentals.add", method="post")
+                    label.mr-3(for="customerId") ADD RENTAL:
+                    input#exampleInput.mr-2(type="text", name="customerEmail", placeholder="customer email:", value="")
+                    input#exampleInput.mr-2(type="text", name="movieName", placeholder="movie name:", value="")
+                    button.btn.btn-primary(type="submit") SUBMIT
+        .row
+            table.table.table-dark
+                thead
+                    tr
+                        //- th(scope='col') Date-out
+                        th(scope='col') Customer
+                        th(scope='col') Phone
+                        th(scope='col') Title
+                        th(scope='col') Details
+                        th(scope='col') Delete
+                each rent in rentals
+                    tbody
+                        tr
+
+                            td=rent.customer.name
+                            td=rent.customer.phone
+                            td=rent.movie.title
+                            td
+                                .btn-group
+                                    button.btn.btn-danger(type='button') Action
+                                    button.btn.btn-danger.dropdown-toggle.dropdown-toggle-split(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                                        span.sr-only Toggle Dropdown
+                                        .dropdown-menu
+                                            p.dropdown-item r-id: #{rent.id}
+                                            p.dropdown-item m-Id: #{rent.movie.id}
+                                            p.dropdown-item daily-rate: #{rent.movie.dailyRentalRate}
+                                            p.dropdown-item gId: #{rent._id}
+                            td
+                                form(action="/api/rentals/delete", method="post")
+                                    input.mr-3#exampleInput.invisible(type="text", name="id", value=rent.id)
+                                    button.btn.btn-primary(type="submit") X
