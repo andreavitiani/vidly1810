@@ -1,0 +1,39 @@
+extends layout
+
+block content
+    .container.mt-lg-4.mt-2.mb-lg-4.mb-2
+        h1.text-center=title
+        .row.mb-4
+            col-6.py-3.pr-lg-5
+                form(action="/api/movies", method="post")
+                    label.mr-3(for="title") ADD:
+                    input.mr-3#exampleInput(type="text", name="title", placeholder="title")
+                    //- input.mr-3#exampleInput(type="text", name="genreId", placeholder="genreId")
+                    select.form-control#exampleFormControlSelect1(name="name")
+                        each genre in genres
+                            option=genre.name
+                    input.mr-3#exampleInput(type="text", name="numberInStock", placeholder="Number in stock")
+                    input.mr-3#exampleInput(type="text", name="dailyRentalRate", placeholder="Cost per day")
+                    button.btn.btn-primary(type="submit") SUBMIT
+        .row
+            table.table.table-dark
+                thead
+                    tr
+                        th(scope='col') id
+                        th(scope='col') Name
+                        th(scope='col') Genre
+                        th(scope='col') Stock No
+                        th(scope='col') Rental/day
+                        th(scope='col') Remove
+                each movie in movies
+                    tbody
+                        tr.clickable(data-toggle="collapse" data-target="#group-of-rows-2" aria-expanded="false" aria-controls="group-of-rows-2")
+                            td=movie.id
+                            td=movie.title
+                            td=movie.genre.name
+                            td=movie.numberInStock
+                            td=movie.dailyRentalRate
+                            td
+                                form(action="/api/movies/delete", method="post")
+                                    input.mr-3#exampleInput.invisible(type="text", name="id", value=movie.id)
+                                    button.btn.btn-primary(type="submit") X
